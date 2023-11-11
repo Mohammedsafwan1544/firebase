@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body style="font-Georgia: Arial, sans-serif; background-color: #A7EDF8; color: #333; margin: 0; padding: 0;">
+    <h1>Firebase Authentication Example</h1>
+    Username: <input type="text" id="username" name="username" placeholder="username"><br>
+    Email: <input type="text" id="email" placeholder="user@email.com" /><br>
+    Password: <input type="password" id="password" placeholder="password" /><br><br>
+    <input type="submit" id="signUp" value="submit" />
+    <br><br><br>
+    Email: <input type="text" id="email" placeholder="user@email.com" /><br>
+    Password: <input type="password" id="password" placeholder="password" /><br><br>
+    <input type="submit" id="login" value="login" /><br>
+    <input type="submit" id="logout" value="logout"/>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+        //import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
+        import { getDatabase, ref, set , update} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+       
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCXju7ur_qgyyU1q9It9UOBT7qFSmbEYUk",
+    authDomain: "fir-8a30a.firebaseapp.com",
+    projectId: "fir-8a30a",
+    storageBucket: "fir-8a30a.appspot.com",
+    messagingSenderId: "619098692588",
+    appId: "1:619098692588:web:f9e5b9ed178e27ceabfec9",
+    measurementId: "G-6BYC42L5KR"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+        signUp.addEventListener('click',(e) => {
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                
+                set(ref(database,'users/'+ user.uid),{
+                    username: username,
+                    email: email
+                })
+                alert('User created');
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
+        });
+        login.addEventListener('click', (e) => {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => { 
+                const user = userCredential.user;
+                const dt = new Date();
+                update(ref(database,'users/'+ user.uid),{
+                    last_login: dt,
+                })
+                alert('User logged in')
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+            });
+        });
+
+        const user = auth.currentUser;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const uid = user.uid;
+            } else {
+            }
+        });
+        logout.addEventListener('click',(e) => {
+            signOut(auth).then(() => {
+                alert('User signout');
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+});
+        });
+      </script>
+</body>
+</html>
