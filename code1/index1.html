@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXju7ur_qgyyU1q9It9UOBT7qFSmbEYUk",
+    authDomain: "fir-8a30a.firebaseapp.com",
+    projectId: "fir-8a30a",
+    storageBucket: "fir-8a30a.appspot.com",
+    messagingSenderId: "619098692588",
+    appId: "1:619098692588:web:f9e5b9ed178e27ceabfec9",
+    measurementId: "G-6BYC42L5KR"
+    };
+    firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="app.js" defer></script>
+</head>
+<body style="font-Georgia: Arial, sans-serif; background-color: #A7EDF8; color: #333; margin: 0; padding: 0; text-align: center;">
+    <h1>Firebase</h1>
+
+    <section id="whenSignedOut">
+      <button id="signUpBtn">Sign up</button>
+    </section>
+    <section id="whenSignedUp" hidden="true">
+      <div id="userDetails"></div>
+      <button id="signOutBtn">Sign out</button>
+    </section>
+</body>
+</html>
